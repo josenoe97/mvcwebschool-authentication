@@ -1,7 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using MvcWebSchool_Identity.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+var connectionString = builder.Configuration.GetConnectionString("WebSchoolConnection");
+
+builder.Services.AddDbContext<WebSchoolContext>(opts =>
+opts.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
 
 var app = builder.Build();
 

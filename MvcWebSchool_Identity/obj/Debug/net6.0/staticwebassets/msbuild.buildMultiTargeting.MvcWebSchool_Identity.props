@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\MvcWebSchool_Identity.props" />
+</Project>
