@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MvcWebSchool_Identity.Models;
+﻿
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using MvcWebSchool_Identity.Entities;
 
 
 namespace MvcWebSchool_Identity.Data
 {
-    public class WebSchoolContext : DbContext
+    public class WebSchoolContext : IdentityDbContext
     {
         public WebSchoolContext(DbContextOptions<WebSchoolContext> opts) 
             : base(opts) { }

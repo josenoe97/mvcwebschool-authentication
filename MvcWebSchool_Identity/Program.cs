@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using MvcWebSchool_Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +14,23 @@ var connectionString = builder.Configuration.GetConnectionString("WebSchoolConne
 builder.Services.AddDbContext<WebSchoolContext>(opts =>
 opts.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<WebSchoolContext>();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(opts =>
+    {
+        opts.Cookie.Name = "AspNetCore.Cookies";
+        opts.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+        opts.SlidingExpiration = true;
+    });
+
+builder.Services.Configure<IdentityOptions>(opts =>
+{
+    opts.Password.RequiredLength = 10;
+    opts.Password.RequiredUniqueChars = 3;
+    opts.Password.RequireNonAlphanumeric = false;
+});
 
 var app = builder.Build();
 
@@ -27,7 +47,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+//Identity // A ORDEM IMPORTA UseAuthentication();, DEPOIS UseAuthorization();
+app.UseAuthentication();
 app.UseAuthorization();
+
 
 app.MapControllerRoute(
     name: "default",

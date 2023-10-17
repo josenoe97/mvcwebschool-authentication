@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MvcWebSchool_Identity.Models
+namespace MvcWebSchool_Identity.Entities
 {
     public class Aluno
     {
