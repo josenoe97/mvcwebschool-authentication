@@ -22,6 +22,8 @@ namespace MvcWebSchool_Identity.Controllers
         }
 
         // GET: Alunos
+        //Pode ser acessado por usuários não atenticados
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
               return _context.Alunos != null ? 
@@ -30,6 +32,7 @@ namespace MvcWebSchool_Identity.Controllers
         }
 
         // GET: Alunos/Details/5
+        [Authorize(Roles = "User, Admin, Gerente")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Alunos == null)
@@ -48,6 +51,7 @@ namespace MvcWebSchool_Identity.Controllers
         }
 
         // GET: Alunos/Create
+        [Authorize(Roles = "User, Admin, Gerente")]
         public IActionResult Create()
         {
             return View();
@@ -70,6 +74,7 @@ namespace MvcWebSchool_Identity.Controllers
         }
 
         // GET: Alunos/Edit/5
+        [Authorize(Roles = "Admin, Gerente")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Alunos == null)
@@ -88,6 +93,7 @@ namespace MvcWebSchool_Identity.Controllers
         // POST: Alunos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //BOTÂO CONFIRMAR EDITAR
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Email,Idade,Curso")] Aluno aluno)
@@ -138,9 +144,10 @@ namespace MvcWebSchool_Identity.Controllers
             return View(aluno);
         }
 
-        // POST: Alunos/Delete/5
+        // POST: Alunos/Delete/5 //Botão CONFIRMAR  DELETE !!
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Alunos == null)

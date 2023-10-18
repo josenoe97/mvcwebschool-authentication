@@ -16,6 +16,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\edson\OneDrive\Área de Trabalho\Projetos\MvcWebSchool_Identity\MvcWebSchool_Identity
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/edson/OneDrive/Área de Trabalho/Projetos/MvcWebSchool_Identity/MvcWebSchool_Identity/Views/Account/AcessDenied.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxBY2Vzc0RlbmllZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/edson/OneDrive/Área de Trabalho/Projetos/MvcWebSchool_Identity/MvcWebSchool_Identity/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

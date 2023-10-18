@@ -86,4 +86,11 @@ public class AccountController : Controller
         await signInManager.SignOutAsync();
         return RedirectToAction("Index", "home");
     }
+
+    [HttpGet]
+    [Route("/Account/AccessDenied")] // Referenciando rota
+    public ActionResult AcessDenied()
+    {
+        return View();
+    }
 }

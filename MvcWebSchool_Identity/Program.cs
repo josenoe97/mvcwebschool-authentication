@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MvcWebSchool_Identity.Data;
+using MvcWebSchool_Identity.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +33,8 @@ builder.Services.Configure<IdentityOptions>(opts =>
     opts.Password.RequireNonAlphanumeric = false;
 });
 
+builder.Services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -47,6 +50,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+await CriarPerfisUsuariosAsync(app);
+
 //Identity // A ORDEM IMPORTA UseAuthentication();, DEPOIS UseAuthorization();
 app.UseAuthentication();
 app.UseAuthorization();
@@ -57,3 +62,15 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+async Task CriarPerfisUsuariosAsync(WebApplication app)
+{
+    var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
+
+    using (var scope = scopedFactory.CreateScope())
+    {
+        var service = scope.ServiceProvider.GetService<ISeedUserRoleInitial>();
+        await service.SeedRolesAsync();
+        await service.SeedUsersAsync();
+    }
+}
