@@ -32,7 +32,9 @@ namespace MvcWebSchool_Identity.Controllers
         }
 
         // GET: Alunos/Details/5
-        [Authorize(Roles = "User, Admin, Gerente")]
+        //[Authorize(Roles = "User, Admin, Gerente")]
+        [Authorize(Policy = "RequireUserAdminGerenteRole")]
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Alunos == null)

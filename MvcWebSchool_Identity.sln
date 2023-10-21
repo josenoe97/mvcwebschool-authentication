@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33712.159
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcWebSchool_Identity", "MvcWebSchool_Identity\MvcWebSchool_Identity.csproj", "{B15AA2B4-2100-4069-BC08-B9C811A7059C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MvcWebSchool_Identity", "MvcWebSchool_Identity\MvcWebSchool_Identity.csproj", "{B15AA2B4-2100-4069-BC08-B9C811A7059C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

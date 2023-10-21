@@ -1,0 +1,15 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+    @*Se o usuário estiver autenticado !!*@
+@if (SignInManager.IsSignedIn(User))
+{
+    //verifica se o usuário que fez o login é do role Admin !!
+    @if (User.IsInRole("Admin"))
+    {
+        <li class="nav-item">
+            <a class="nav-link text-black" asp-area="Admin" asp-controller="Admin" asp-action="Index">Admin</a>
+        </li>
+    }
+}

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns;
 using MvcWebSchool_Identity.Data;
 using MvcWebSchool_Identity.Services;
 
@@ -33,6 +34,13 @@ builder.Services.Configure<IdentityOptions>(opts =>
     opts.Password.RequireNonAlphanumeric = false;
 });
 
+// substitui [Authorize(Roles = "User, Admin, Gerente")]
+builder.Services.AddAuthorization(opts =>
+{
+    opts.AddPolicy("RequireUserAdminGerenteRole",
+        policy => policy.RequireRole("User", "Admin", "Gerente"));
+});
+
 builder.Services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
 
 var app = builder.Build();
@@ -56,6 +64,9 @@ await CriarPerfisUsuariosAsync(app);
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapControllerRoute(
+    name: "MinhaArea",
+    pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",
