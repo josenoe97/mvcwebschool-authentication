@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns;
+using MvcWebIdentity.Services;
 using MvcWebSchool_Identity.Data;
 using MvcWebSchool_Identity.Services;
 
@@ -41,7 +42,21 @@ builder.Services.AddAuthorization(opts =>
         policy => policy.RequireRole("User", "Admin", "Gerente"));
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("IsAdminClaimAccess",
+        policy => policy.RequireClaim("CadastradoEm"));
+
+    options.AddPolicy("IsAdminClaimAccess",
+        policy => policy.RequireClaim("IsAdmin", "true"));
+
+    options.AddPolicy("IsFuncionarioClaimAccess",
+       policy => policy.RequireClaim("IsFuncionario", "true"));
+});
+
+
 builder.Services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
+builder.Services.AddScoped<ISeedUserClaimsInitial, SeedUserClaimsInitial>();
 
 var app = builder.Build();
 
@@ -80,8 +95,11 @@ async Task CriarPerfisUsuariosAsync(WebApplication app)
 
     using (var scope = scopedFactory.CreateScope())
     {
-        var service = scope.ServiceProvider.GetService<ISeedUserRoleInitial>();
+       /* var service = scope.ServiceProvider.GetService<ISeedUserRoleInitial>();
         await service.SeedRolesAsync();
-        await service.SeedUsersAsync();
+        await service.SeedUsersAsync();*/
+
+        var service = scope.ServiceProvider.GetService<ISeedUserClaimsInitial>();
+        await service.SeedUserClaims();
     }
 }

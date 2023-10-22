@@ -13,6 +13,8 @@ namespace MvcWebSchool_Identity.Data
 
         public DbSet<Aluno> Alunos { get; set; }
 
+        public DbSet<Produto> Produtos { get; set; }
+
         //Adiciona um novo registro 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
