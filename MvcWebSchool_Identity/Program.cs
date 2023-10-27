@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns;
 using MvcWebIdentity.Services;
 using MvcWebSchool_Identity.Data;
+using MvcWebSchool_Identity.Policies;
 using MvcWebSchool_Identity.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,25 +38,32 @@ builder.Services.Configure<IdentityOptions>(opts =>
 });
 
 // substitui [Authorize(Roles = "User, Admin, Gerente")]
+//(RequireRole): é usado para edigir que um usuário tenha uma role específica para acessar um recurso
 builder.Services.AddAuthorization(opts =>
 {
     opts.AddPolicy("RequireUserAdminGerenteRole",
         policy => policy.RequireRole("User", "Admin", "Gerente"));
 });
 
-builder.Services.AddAuthorization(options =>
+//(RequireClaim): especifica que o usuario precisa ter uma detemrinada declaração claim para acessar um recurso protegido
+builder.Services.AddAuthorization(opts =>
 {
-    options.AddPolicy("IsAdminClaimAccess",
+    opts.AddPolicy("IsAdminClaimAccess",
         policy => policy.RequireClaim("CadastradoEm"));
 
-    options.AddPolicy("IsAdminClaimAccess",
+    opts.AddPolicy("IsAdminClaimAccess",
         policy => policy.RequireClaim("IsAdmin", "true"));
 
-    options.AddPolicy("IsFuncionarioClaimAccess",
+    opts.AddPolicy("IsFuncionarioClaimAccess",
        policy => policy.RequireClaim("IsFuncionario", "true"));
+
+    opts.AddPolicy("TempoCadastroMinimo", policy =>
+        {
+            policy.Requirements.Add(new TempoCadastroRequirement(5)); // tempo de cadastro minimo
+        });
 });
 
-
+builder.Services.AddScoped<IAuthorizationHandler, TempoCadastroHandler>();
 builder.Services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
 builder.Services.AddScoped<ISeedUserClaimsInitial, SeedUserClaimsInitial>();
 

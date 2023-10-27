@@ -26,7 +26,7 @@ public class ProdutosController : Controller
     }
 
 
-    [Authorize(Policy = "IsFuncionarioClaimAccess")]
+    [Authorize(Policy = "TempoCadastroMinimo")]
     public async Task<IActionResult> Details(int? id)
     {
         if (id == null || _context.Produtos == null)
@@ -43,7 +43,7 @@ public class ProdutosController : Controller
         return View(produto);
     }
 
-    [Authorize(Policy = "IsFuncionarioClaimAccess")]
+    [Authorize(Policy = "TempoCadastroMinimo")]
     public IActionResult Create()
     {
         return View();
@@ -62,7 +62,7 @@ public class ProdutosController : Controller
         return View(produto);
     }
 
-    [Authorize(Policy = "IsAdminClaimAccess")]
+    [Authorize(Policy = "TempoCadastroMinimo")]
     public async Task<IActionResult> Edit(int? id)
     {
         if (id == null || _context.Produtos == null)
@@ -114,7 +114,7 @@ public class ProdutosController : Controller
 
 
     //[Authorize(Policy = "TesteClaim")]
-    [Authorize(Policy = "IsAdminClaimAccess")]
+    [Authorize(Policy = "TempoCadastroMinimo", Roles = "Admin")]
     public async Task<IActionResult> Delete(int? id)
     {
         if (id == null || _context.Produtos == null)
