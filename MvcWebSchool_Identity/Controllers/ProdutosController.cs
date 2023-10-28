@@ -114,7 +114,8 @@ public class ProdutosController : Controller
 
 
     //[Authorize(Policy = "TesteClaim")]
-    [Authorize(Policy = "TempoCadastroMinimo", Roles = "Admin")]
+    /*[Authorize(Policy = "TempoCadastroMinimo", Roles = "Admin")]*/
+    [Authorize(Policy = "TesteClaim")]
     public async Task<IActionResult> Delete(int? id)
     {
         if (id == null || _context.Produtos == null)

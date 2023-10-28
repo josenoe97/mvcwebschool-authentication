@@ -61,6 +61,9 @@ builder.Services.AddAuthorization(opts =>
         {
             policy.Requirements.Add(new TempoCadastroRequirement(5)); // tempo de cadastro minimo
         });
+
+    opts.AddPolicy("TesteClaim",
+        policy => policy.RequireClaim("Teste", "teste_claim"));
 });
 
 builder.Services.AddScoped<IAuthorizationHandler, TempoCadastroHandler>();
